@@ -32,9 +32,10 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Code Dependencies
 ```
-- Matplotlib
-- Numpy
-- OpenCV
+- matplotlib
+- numpy
+- openCV
+- scikit-image
 ```
 
 ### Prerequisites
