@@ -8,7 +8,8 @@ import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 
-import rlsa
+# import rlsa
+import rlsa2
 
 
 # Everything will go and be divided into functions to go here
@@ -58,7 +59,7 @@ print(gray.shape)
 
 # ----------- Preprocessing 0: Median Filter ---------------------------------#
 
-# blur = cv2.medianBlur(gray,3)
+blur = cv2.medianBlur(gray, 3)
 # blur = cv2.bilateralFilter(img,9,75,75)
 
 # Filtering notes
@@ -84,7 +85,10 @@ print(gray.shape)
 # optimal thresholding value, in any case it must be there or it will give an
 # error.
 
-ret, thr = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+# ret, thr = cv2.threshold(blur, 127, 255, cv2.THRESH_BINARY)
+thr = cv2.adaptiveThreshold(blur, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
+                            cv2.THRESH_BINARY, 11, 2)
+
 print(thr.shape)
 
 
@@ -100,14 +104,15 @@ print(thr.shape)
 # The first parameter is the maximum distance at which black pixels are joined
 # in the horizontal direction, the second applies to the vertical direction.
 
-joined = rlsa.rlsa(thr, 5, 30)
+# joined = rlsa.rlsa(thr, 5, 30)
+joined = rlsa2.rlsa(thr, 5, 30)
 
 
-titles = ['Original Image', 'Thresholded', 'Rlsaed']
-images = [img, thr, joined]
+titles = ['Original Image', 'Median', 'Thresholded', 'Rlsaed']
+images = [img, blur, thr, joined]
 
-for i in range(3):
-    plt.subplot(1, 3, i+1), plt.imshow(images[i], 'gray')
+for i in range(4):
+    plt.subplot(1, 4, i+1), plt.imshow(images[i], 'gray')
     plt.title(titles[i])
     plt.xticks([]), plt.yticks([])
 plt.show()
