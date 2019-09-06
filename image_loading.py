@@ -9,7 +9,8 @@ from matplotlib import pyplot as plt
 
 import rlsa
 
-
+from skimage import measure
+from skimage import filter as filters
 
 
 
@@ -36,7 +37,7 @@ import rlsa
 
 # --------------------- Loading image ---------------------------- #
 
-img = cv2.imread( '09_060.jpg' )			#open image 
+img = cv2.imread( "debug\\img\\09_060.jpg" )			#open image 
 #print img										#print the array 
 print( img.shape )								#Note: needs parenthesis in python3
 
@@ -65,7 +66,7 @@ print( gray.shape )
 
 # ----------- Preprocessing 1: Thresholding --------------- # 
 
-ret,thr = cv2.threshold(gray,127,255,cv2.THRESH_BINARY)		#thresholding the image. Note: the first return value is used to determine the optimal thresholding value, in any case it must be there or it will give an error.
+ret,thr = cv2.threshold(gray,200,255,cv2.THRESH_BINARY)		#thresholding the image. Note: the first return value is used to determine the optimal thresholding value, in any case it must be there or it will give an error.
 print( thr.shape )
 
 
@@ -80,20 +81,48 @@ print( thr.shape )
 # But I didn't understand how to install it, so I wrote my own version.
 
 # The first parameter is the maximum distance at which black pixels are joined in the horizontal direction, the second applies to the vertical direction.
-joined = rlsa.rlsa( thr, 5, 30 )	
+#joined = rlsa.rlsa( thr, 10, 30 )	
 			
+# One VERY EVIDENT PROBLEM is that, in the joining process, a lot of white pixels are left stranded in the middle of black lines (the image is separated into 1049 segments).
+
+joinedt = rlsa.rlsa( thr, 10, 30 )	
+joined = rlsa.rlsa( joinedt, 10, 30 )	
+	
+# Running the algorithm a second time does a lot of good (the number of segments is down to 147).
+
+# For now, setting a higher threshold and running the algorithm twice greatly trims down the number of segments (about 60). However, this takes a few seconds to compute, which is pretty long.
+
+
+# ------------- Preprocessing 3: Segmentation ------------ # 
+
+# Some fancy stuff going on here. Just checking out how some existing function works, and deciding if we should make our own.
+
+#joined =  cv2.bilateralFilter(joined,15,75,75)
+#ret,joined = cv2.threshold(joined,127,255,cv2.THRESH_BINARY)	
+
+all_labels, num_labels = measure.label(joined, return_num=1)
+# return_num=1 is a boolean trigger to have the function print the number of labels, to be stored in num_labels.
+# the default connectivity is the number of dimensions (this means that diagonal pixels are considered as neighbors).
+
+print( num_labels )
+
+# It's also possible to manipulate the segments. Instructions here https://scikit-image.org/docs/dev/api/skimage.measure.html
 
 
 
+#titles = ['Original Image', 'Thresholded', 'Rlsaed']
+#images = [img, thr, joined]
+titles = ['Original Image', 'Rlsaed', 'Segmented']
+images = [img, joined, all_labels]
 
-
-titles = ['Original Image', 'Thresholded', 'Rlsaed']
-images = [img, thr, joined]
-
-for i in range(3):					#Note: xrange deprecated in python3
+for i in range(2):					#Note: xrange deprecated in python3
     plt.subplot(1,3,i+1),plt.imshow(images[i],'gray')
     plt.title(titles[i])
     plt.xticks([]),plt.yticks([])
+plt.subplot(1,3,3),plt.imshow(images[2], cmap='hsv')
+plt.title(titles[2])
+plt.xticks([]),plt.yticks([])
+
 plt.show()
 
 
