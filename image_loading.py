@@ -37,7 +37,7 @@ from skimage import filter as filters
 
 # --------------------- Loading image ---------------------------- #
 
-img = cv2.imread( '09_060.jpg' )			#open image 
+img = cv2.imread( "debug\\img\\09_060.jpg" )			#open image 
 #print img										#print the array 
 print( img.shape )								#Note: needs parenthesis in python3
 
@@ -85,10 +85,9 @@ print( thr.shape )
 			
 # One VERY EVIDENT PROBLEM is that, in the joining process, a lot of white pixels are left stranded in the middle of black lines (the image is separated into 1049 segments).
 
-#joinedt = rlsa.rlsa( thr, 10, 30 )	
-#joined = rlsa.rlsa( joinedt, 10, 30 )	
-
-joined = rlsa.rlsa2( thr, 10, 30 )	
+joinedt = rlsa.rlsa( thr, 10, 30 )	
+joined = rlsa.rlsa( joinedt, 10, 30 )	
+	
 # Running the algorithm a second time does a lot of good (the number of segments is down to 147).
 
 # For now, setting a higher threshold and running the algorithm twice greatly trims down the number of segments (about 60). However, this takes a few seconds to compute, which is pretty long.
