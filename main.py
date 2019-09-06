@@ -1,7 +1,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #                                 Imports
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# import image_loading
+import image_loading
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #                              Global Variables
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -21,6 +21,7 @@ parameters = []
 # Greeting user and asking for input and recieving input.
 image += input(greet)
 print(image)
+DEBUG: image = "debug\\img\\09_060"
 
 # Sending data off to the image loader
-# image_loading.load(image)
+image_loading.process_image(image)
