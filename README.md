@@ -78,7 +78,7 @@ Please read [CONTRIBUTING.md](https://gist.github.com/NekroDarkmoon/MessageInABu
 
 ## Authors
 
-* **Kishi/Ashwin?** - *Author* - [Insert Link](#)
+* **Kishi** - *Author* - [Kishi](https://github.com/Kishi115)
 
 * **Nekro Darkmoon** - *Author* - [NekroDarkmoon](https://github.com/NekroDarkmoon)
 
