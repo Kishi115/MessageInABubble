@@ -10,6 +10,7 @@ from matplotlib import pyplot as plt
 import rlsa
 
 from skimage import measure
+
 # from skimage import filter as filters
 
 
@@ -42,6 +43,7 @@ from skimage import measure
 # cv2.bilateralFilter(img,9,75,75) edge-preserving filter (slow)
 
 def process_image(image):
+
     # --------------------- Loading image ---------------------------- #
 
     # open image
