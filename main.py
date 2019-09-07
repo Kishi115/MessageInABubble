@@ -21,7 +21,9 @@ parameters = []
 # Greeting user and asking for input and recieving input.
 image += input(greet)
 print(image)
-DEBUG: image = "debug\\img\\09_060"
+# Debug
+image = "debug\\img\\09_060.jpg"
+print(image)
 
 # Sending data off to the image loader
 image_loading.process_image(image)
