@@ -12,6 +12,7 @@ import rlsa
 from skimage import measure
 # from skimage import filter as filters
 
+import time
 
 # ------------------ Short cv2 manual --------------------------- #
 
@@ -40,6 +41,7 @@ from skimage import measure
 # present in the image)
 
 # cv2.bilateralFilter(img,9,75,75) edge-preserving filter (slow)
+
 
 def process_image(image):
     # --------------------- Loading image ---------------------------- #
@@ -105,8 +107,10 @@ def process_image(image):
     # a lot of white pixels are left stranded in the middle of black lines
     # (the image is separated into 1049 segments).
 
+    # Debugging and logging time
+    start_time = time.time()
     joined = rlsa.rlsa(thr, 10, 30)
-    joined = rlsa.rlsa(joined, 10, 30)
+    print("--- %s seconds ---" % (time.time() - start_time))
 
     # Running the algorithm a second time does a lot of good (the number of
     # segments is down to 147).
